@@ -17,7 +17,7 @@ var Geometry = geonode.Geometry;
 
 var geom = new Geometry();
 
-//assertInstanceof(geom, Geometry);
+assert.ok(geom instanceof Geometry);
 
 assert.ok(/^3\.[0-9.]+-CAPI-1\.[56]\.[0-9]$/.test(geom._geosVersion));
 
@@ -31,7 +31,7 @@ assert.equal(geom.toWkt(), "POINT (0.0000000000000000 0.0000000000000000)");
 // You can also initialize a Geometry with a WKT passed to the constructor
 var pt = new Geometry("POINT(1 1)");
 
-//assertInstanceof(pt, Geometry);
+assert.ok(pt instanceof Geometry);
 
 assert.equal(pt.toWkt(), "POINT (1.0000000000000000 1.0000000000000000)");
 
@@ -41,8 +41,8 @@ polyWkt = "POLYGON ((0.0000000000000000 0.0000000000000000, 0.0000000000000000 2
 
 assert.equal(poly.toWkt(), polyWkt);
 
-assert.throws("new Geometry(\"SOMEGROSSLYINVALIDWKT\")");
-assert.throws("var g = new Geometry(); g.fromWkt(\"SOMEGROSSLYINVALIDWKT\")");
+assert.throws(function() {var g = new Geometry("SOMEGROSSLYINVALIDWKT");});
+assert.throws(function() {var g = new Geometry(); g.fromWkt("SOMEGROSSLYINVALIDWKT");});
 
 assert.ok(poly.contains(pt));
 assert.ok(!pt.contains(poly));
@@ -106,6 +106,6 @@ assert.equal(poly.relate(new Geometry("POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))")), "2
 
 assert.ok(poly.relate(new Geometry("POLYGON((1 1, 1 3, 3 3, 3 1, 1 1))"), "212101212"));
 
-sys.puts("Heap increased by " + ((process.memoryUsage().rss - rss) / 1024) + " KB");
+console.log("Heap increased by " + ((process.memoryUsage().rss - rss) / 1024) + " KB");
 
-sys.puts("Tests pass!");
+console.log("Tests pass!");
